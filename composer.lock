@@ -1,27 +1,29 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "9a9d50203d600d3b3a8d5914874696ef",
+    "hash": "be668709f4f5f05a6dc163b00d9186ff",
     "packages": [
         {
-            "name": "rnijveld/xmlseclibs",
-            "version": "v1.3.1",
+            "name": "interexperts/xmlseclibs",
+            "version": "v1.3.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rnijveld/xmlseclibs.git",
-                "reference": "v1.3.1"
+                "url": "https://github.com/interexperts/xmlseclibs.git",
+                "reference": "c0c7f5063b87f2f98a38d4f47ab3ad155c1628b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rnijveld/xmlseclibs/zipball/v1.3.1",
-                "reference": "v1.3.1",
+                "url": "https://api.github.com/repos/interexperts/xmlseclibs/zipball/c0c7f5063b87f2f98a38d4f47ab3ad155c1628b6",
+                "reference": "c0c7f5063b87f2f98a38d4f47ab3ad155c1628b6",
                 "shasum": ""
             },
             "replace": {
                 "cdatazone/xmlseclibs": "self.version",
-                "fr3d/xmlseclibs": "self.version"
+                "fr3d/xmlseclibs": "self.version",
+                "robrichards/xmlseclibs": "self.version"
             },
             "suggest": {
                 "ext/mcrypt": "",
@@ -40,10 +42,14 @@
             "authors": [
                 {
                     "name": "Rob Richards"
+                },
+                {
+                    "name": "InterExperts",
+                    "homepage": "http://www.interexperts.nl/"
                 }
             ],
-            "description": "A PHP library for XML Security",
-            "homepage": "http://code.google.com/p/xmlseclibs/",
+            "description": "PHP library for XML Security. Fork of Rob Richards' library, modified namespace behavior",
+            "homepage": "https://github.com/interexperts/xmlseclibs",
             "keywords": [
                 "certificate",
                 "security",
@@ -53,23 +59,17 @@
                 "xml",
                 "xmlsec"
             ],
-            "time": "2013-06-19 00:00:00"
+            "time": "2015-02-19 10:02:15"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4.0"
+    },
+    "platform-dev": []
 }
