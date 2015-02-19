@@ -170,7 +170,7 @@ class IDeal
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getDocumentString());
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type' => 'text/xml; charset=UTF-8'
+            'Content-Type: text/xml; charset=UTF-8'
         ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         if ($this->verification === false) {
