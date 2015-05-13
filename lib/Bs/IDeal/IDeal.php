@@ -41,6 +41,8 @@ class IDeal
 
     private $baseUrl;
 
+    private $proxyUrl;
+
     private $verification;
 
     private $autoVerify;
@@ -78,6 +80,16 @@ class IDeal
     {
         $this->acquirerCertificate = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'public']);
         $this->acquirerCertificate->loadKey($key, $isFile, true);
+    }
+
+    public function getProxyUrl()
+    {
+        return $this->proxyUrl;
+    }
+
+    public function setProxyUrl($proxyUrl)
+    {
+        $this->proxyUrl = $proxyUrl;
     }
 
     public function disableVerification()
@@ -177,10 +189,28 @@ class IDeal
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         }
 
+        if ($this->proxyUrl != null) {
+            curl_setopt($curl, CURLOPT_PROXY, $this->proxyUrl);
+        }
+
         $response = curl_exec($curl);
-        $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $headers = explode("\r\n", substr($response, 0, $header_size));
-        $body = substr($response, $header_size);
+
+        if ($this->proxyUrl != null) {
+            // Clear up proxy response:
+            if (stripos($response, "HTTP/1.0 200 Connection established\r\n\r\n") !== false) {
+                $response = str_ireplace("HTTP/1.0 200 Connection established\r\n\r\n", '', $response);
+            }
+        }
+
+        if (stripos($response, "HTTP/1.1 100 Continue\r\n\r\n") !== false) {
+            $response = str_ireplace("HTTP/1.1 100 Continue\r\n\r\n", '', $response);
+        }
+
+        // Split headers and body:
+        list($headers, $body) = explode("\r\n\r\n", $response, 2);
+
+        // Explode headers
+        $headers = explode("\r\n", $headers);
 
         return $this->handleResult($request, $headers, $body);
     }
