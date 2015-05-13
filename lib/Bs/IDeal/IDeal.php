@@ -200,6 +200,10 @@ class IDeal
             if (stripos($response, "HTTP/1.0 200 Connection established\r\n\r\n") !== false) {
                 $response = str_ireplace("HTTP/1.0 200 Connection established\r\n\r\n", '', $response);
             }
+
+            if (stripos($response, "HTTP/1.1 200 Connection established\r\n\r\n") !== false) {
+                $response = str_ireplace("HTTP/1.1 200 Connection established\r\n\r\n", '', $response);
+            }
         }
 
         if (stripos($response, "HTTP/1.1 100 Continue\r\n\r\n") !== false) {
