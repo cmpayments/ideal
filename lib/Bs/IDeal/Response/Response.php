@@ -36,6 +36,7 @@ class Response
         $rootNamespace = $this->doc->lookupNamespaceUri($this->doc->namespaceURI);
         $this->xpath->registerNamespace('i', $rootNamespace);
         $this->verificationCompleted = false;
+        $this->request = $request;
     }
 
     public function getRequest()
