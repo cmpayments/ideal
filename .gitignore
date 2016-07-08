@@ -3,3 +3,4 @@ vendor/
 ._*
 thumbs.db
 *.orig
+.idea/

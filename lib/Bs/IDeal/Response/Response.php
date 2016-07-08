@@ -40,7 +40,7 @@ class Response
 
     public function getRequest()
     {
-        $this->request;
+        return $this->request;
     }
 
     public function getDocument()
