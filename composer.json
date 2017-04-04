@@ -1,15 +1,30 @@
 {
-    "name": "interexperts/ideal",
+    "name": "cmpayments/ideal",
     "description": "iDEAL implementation for PHP 5.4+",
     "license": "MIT",
-    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "CM Payments",
+            "homepage": "https://github.com/interexperts/ideal"
+        },
+        {
+            "name": "Bravesheep",
+            "homepage": "https://github.com/bravesheep/ideal"
+        },
+        {
+            "name": "InterExperts",
+            "homepage": "https://github.com/interexperts/ideal"
+        }
+    ],
+    "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "interexperts/xmlseclibs": "1.3.3"
+        "robrichards/xmlseclibs": "~1.4",
+        "roave/security-advisories": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "Bs\\IDeal": "lib/"
+        "psr-4": {
+            "CMPayments\\IDeal\\": "src/lib/"
         }
     }
 }
