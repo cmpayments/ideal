@@ -19,8 +19,10 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "robrichards/xmlseclibs": "~1.4",
-        "roave/security-advisories": "dev-master"
+        "robrichards/xmlseclibs": "~1.4"
+    },
+    "suggest": {
+        "roave/security-advisories": "Consider adding roave/security-advisories:dev-master as a firewall for vulnerable components."
     },
     "autoload": {
         "psr-4": {

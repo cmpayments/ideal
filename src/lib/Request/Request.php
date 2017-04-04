@@ -1,26 +1,53 @@
 <?php
 
-namespace Bs\IDeal\Request;
+namespace CMPayments\IDeal\Request;
 
-// use ass\XmlSecurity\DSig;
-use Bs\IDeal\IDeal;
+use CMPayments\IDeal\IDeal;
 use DOMImplementation;
 use XMLSecurityDSig;
 
+/**
+ * Class Request
+ * @package CMPayments\IDeal\Request
+ */
 class Request
 {
+    /**
+     * Class constants
+     */
     const XMLNS = "http://www.idealdesk.com/ideal/messages/mer-acq/3.3.1";
 
+    /**
+     * @var IDeal iDEAL client
+     */
     protected $ideal;
 
+    /**
+     * @var \DOMDocument XML payload
+     */
     protected $doc;
 
+    /**
+     * @var string Root node
+     */
     protected $root;
 
+    /**
+     * @var bool Signed indicator
+     */
     private $signed;
 
+    /**
+     * @var string Merchant
+     */
     protected $merchant;
 
+    /**
+     * Request constructor.
+     *
+     * @param IDeal $ideal
+     * @param       $rootName
+     */
     public function __construct(IDeal $ideal, $rootName)
     {
         $this->ideal = $ideal;
@@ -28,11 +55,21 @@ class Request
         $this->createDocument($rootName);
     }
 
+    /**
+     * Get iDEAL client
+     *
+     * @return IDeal
+     */
     public function getIdeal()
     {
         return $this->ideal;
     }
 
+    /**
+     * Create XML request
+     *
+     * @param string $rootName XML root node
+     */
     private function createDocument($rootName)
     {
         $implementor = new DOMImplementation();
@@ -64,6 +101,14 @@ class Request
         $this->root->appendChild($this->merchant);
     }
 
+    /**
+     * Create XML namespaced element
+     *
+     * @param      $name
+     * @param null $value
+     *
+     * @return \DOMElement
+     */
     protected function createElement($name, $value = null)
     {
         if ($value === null) {
@@ -74,6 +119,9 @@ class Request
         return $element;
     }
 
+    /**
+     * Sign XML request
+     */
     public function sign()
     {
         $this->preSign();
@@ -96,26 +144,49 @@ class Request
         $this->signed = true;
     }
 
+    /**
+     * Presign XML request
+     */
     protected function preSign()
     {
         // do nothing in standard implementation
     }
 
+    /**
+     * Returns signed status of request
+     *
+     * @return bool
+     */
     public function isSigned()
     {
         return $this->signed;
     }
 
+    /**
+     * Get request payload as XML document
+     *
+     * @return \DOMDocument
+     */
     public function getDocument()
     {
         return $this->doc;
     }
 
+    /**
+     * Get request payload as string
+     *
+     * @return string
+     */
     public function getDocumentString()
     {
         return $this->getDocument()->saveXML(null, LIBXML_NOEMPTYTAG);
     }
 
+    /**
+     * Send request to iDEAL acquirer
+     *
+     * @return \CMPayments\IDeal\Response\DirectoryResponse|\CMPayments\IDeal\Response\ErrorResponse|\CMPayments\IDeal\Response\StatusResponse|\CMPayments\IDeal\Response\TransactionResponse|null
+     */
     public function send()
     {
         return $this->ideal->send($this);

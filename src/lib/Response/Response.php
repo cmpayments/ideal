@@ -1,32 +1,63 @@
 <?php
 
-namespace Bs\IDeal\Response;
+namespace CMPayments\IDeal\Response;
 
-use Bs\IDeal\Request;
-use Bs\IDeal\Exception;
-use Bs\IDeal\IDeal;
+use CMPayments\IDeal\Request;
+use CMPayments\IDeal\Exception;
+use CMPayments\IDeal\IDeal;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
-use XMLSecurityDSig;
 use DateTime;
 
+/**
+ * Class Response
+ * @package CMPayments\IDeal\Response
+ */
 class Response
 {
+    /**
+     * @var DOMDocument Response XML document
+     */
     protected $doc;
 
+    /**
+     * @var \DOMElement Internal XML root element
+     */
     protected $root;
 
+    /**
+     * @var IDeal iDEAL client
+     */
     protected $ideal;
 
+    /**
+     * @var DOMXPath internal XML XPath element
+     */
     protected $xpath;
 
+    /**
+     * @var bool Response is verified
+     */
     private $isVerified;
 
+    /**
+     * @var bool Response verification is completed
+     */
     private $verificationCompleted;
 
+    /**
+     * @var Request\Request iDEAL request
+     */
     protected $request;
 
+    /**
+     * Response constructor.
+     *
+     * @param IDeal           $ideal
+     * @param Request\Request $request
+     * @param DOMDocument     $document
+     */
     public function __construct(IDeal $ideal, Request\Request $request, DOMDocument $document)
     {
         $this->doc = $document;
@@ -39,16 +70,35 @@ class Response
         $this->request = $request;
     }
 
+    /**
+     * Get iDEAL request
+     *
+     * @return Request\Request
+     */
     public function getRequest()
     {
         return $this->request;
     }
 
+    /**
+     * Get response XML object
+     *
+     * @return DOMDocument
+     */
     public function getDocument()
     {
         return $this->doc;
     }
 
+    /**
+     *
+     * Verify XML signature
+     *
+     * @param bool $throwException
+     *
+     * @return bool
+     * @throws Exception\SecurityException
+     */
     public function verify($throwException = false)
     {
         if ($this->verificationCompleted === false) {
@@ -63,6 +113,24 @@ class Response
         return $this->isVerified;
     }
 
+    /**
+     * Get Date/Time from response
+     *
+     * @return DateTime
+     */
+    public function getDateTime()
+    {
+        return new DateTime($this->singleValue('//i:createDateTimestamp'));
+    }
+
+    /**
+     * Query the internal XML response object
+     *
+     * @param              $query
+     * @param DOMNode|null $node
+     *
+     * @return \DOMNodeList
+     */
     protected function query($query, DOMNode $node = null)
     {
         if ($node === null) {
@@ -72,6 +140,15 @@ class Response
         }
     }
 
+    /**
+     * Get a single XML node from the internal XML response object
+     *
+     * @param              $query
+     * @param DOMNode|null $node
+     *
+     * @return \DOMElement
+     * @throws Exception\InvalidXMLException
+     */
     protected function single($query, DOMNode $node = null)
     {
         $nodes = $this->query($query, $node);
@@ -81,13 +158,17 @@ class Response
         return $nodes->item(0);
     }
 
+    /**
+     * Extract the value from an XML node
+     *
+     * @param              $query
+     * @param DOMNode|null $node
+     *
+     * @return string
+     */
     protected function singleValue($query, DOMNode $node = null)
     {
         return $this->single($query, $node)->nodeValue;
     }
 
-    public function getDateTime()
-    {
-        return new DateTime($this->singleValue('//i:createDateTimestamp'));
-    }
 }
