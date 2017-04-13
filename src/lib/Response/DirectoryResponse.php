@@ -64,4 +64,14 @@ class DirectoryResponse extends Response
     {
         return $this->singleValue('//i:Acquirer/i:acquirerID');
     }
+
+    /**
+     * Get DateTime when the issuers were last modified
+     *
+     * @return \DateTime
+     */
+    public function getCreateDateTimeStamp()
+    {
+        return new \DateTime($this->singleValue('//i:createDateTimestamp'));
+    }
 }
