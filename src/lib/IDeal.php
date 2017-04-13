@@ -438,20 +438,6 @@ class IDeal
     }
 
     /**
-     * Get a list of all issuing banks
-     *
-     * @return array
-     */
-    public function getIssuers()
-    {
-        $request  = $this->createDirectoryRequest();
-        $response = $request->send();
-
-        return $response->getAllIssuers();
-    }
-
-
-    /**
      * Create an iDEAL directory request
      *
      * @return Request\DirectoryRequest
@@ -459,32 +445,6 @@ class IDeal
     public function createDirectoryRequest()
     {
         return new Request\DirectoryRequest($this);
-    }
-
-    /**
-     * Starts an iDEAL transaction
-     *
-     * @param $issuerId
-     * @param $returnUrl
-     * @param $purchaseId
-     * @param $amount
-     * @param $description
-     * @param string $expirationPeriod The expiration period of the new transaction
-     *
-     * @return Response\DirectoryResponse|Response\ErrorResponse|Response\StatusResponse|Response\TransactionResponse|null
-     */
-    public function startTransAction($issuerId, $returnUrl, $purchaseId, $amount, $description, $expirationPeriod = self::DEFAULT_EXPIRATION)
-    {
-        $transactionRequest = $this->createTransactionRequest(
-            $issuerId,
-            $returnUrl,
-            $purchaseId,
-            $amount,
-            $description,
-            $expirationPeriod
-        );
-
-        return $this->send($transactionRequest);
     }
 
     /**
