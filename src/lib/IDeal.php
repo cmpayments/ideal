@@ -55,6 +55,11 @@ class IDeal
     private $acquirerCertificate;
 
     /**
+     * @var string Fallback Acquirer certificate (PKCS string representation)
+     */
+    private $fallbackAcquirerCertificate;
+
+    /**
      * @var string Base URL endpoint (unified for all request types)
      */
     private $baseUrl;
@@ -161,6 +166,18 @@ class IDeal
     {
         $this->acquirerCertificate = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'public']);
         $this->acquirerCertificate->loadKey($key, $isFile, true);
+    }
+
+    /**
+     * Sets acquirer fallback certificate
+     *
+     * @param      $key
+     * @param bool $isFile
+     */
+    public function setFallbackAcquirerCertificate($key, $isFile = true)
+    {
+        $this->fallbackAcquirerCertificate = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'public']);
+        $this->fallbackAcquirerCertificate->loadKey($key, $isFile, true);
     }
 
     /**
@@ -300,6 +317,16 @@ class IDeal
     }
 
     /**
+     * Return merchant acquirer fallback certificate
+     *
+     * @return string
+     */
+    public function getFallbackAcquirerCertificate()
+    {
+        return $this->fallbackAcquirerCertificate;
+    }
+
+    /**
      * Return base URL
      *
      * @return string
@@ -408,6 +435,14 @@ class IDeal
             $parameters['acquirerCertificate'],
             !$this->isPkcsFormat($parameters['acquirerCertificate'])
         );
+
+        if (!empty($parameters['fallbackAcquirerCertificate'])) {
+            $this->setFallbackAcquirerCertificate(
+                $parameters['fallbackAcquirerCertificate'],
+                !$this->isPkcsFormat($parameters['fallbackAcquirerCertificate'])
+            );
+        }
+
         $this->setMerchant(
             $parameters['merchantId'],
             $parameters['merchantSubId']
