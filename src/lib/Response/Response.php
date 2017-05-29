@@ -102,8 +102,22 @@ class Response
     public function verify($throwException = false)
     {
         if ($this->verificationCompleted === false) {
-            $cert = $this->ideal->getAcquirerCertificate();
-            $this->isVerified = $this->ideal->verify($this->doc, $cert, $throwException);
+            try {
+                $cert = $this->ideal->getAcquirerCertificate();
+                /*
+                 * Note: The verify function will remove the signature so we have to clone the response document,
+                 * otherwise the fallback-verification will throw an "Exception\SecurityException" with the
+                 * message "No signature element"
+                 */
+                $this->isVerified = $this->ideal->verify(clone $this->doc, $cert, $throwException);
+            } catch (Exception\SecurityException $t) {
+                $fallbackAcquirerCert = $this->ideal->getFallbackAcquirerCertificate();
+                if ($fallbackAcquirerCert !== null) {
+                    $this->isVerified = $this->ideal->verify(clone $this->doc, $fallbackAcquirerCert, $throwException);
+                } else {
+                    throw $t;
+                }
+            }
             $this->verificationCompleted = true;
         }
 
