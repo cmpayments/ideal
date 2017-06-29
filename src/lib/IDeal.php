@@ -597,6 +597,10 @@ class IDeal
             $response = str_ireplace("HTTP/1.1 100 Continue\r\n\r\n", '', $response);
         }
 
+        if (curl_errno($curl)) {
+            throw new Exception\ConnectionException(curl_error($curl), curl_errno($curl));
+        }
+
         // Split headers and body:
         list($headers, $body) = explode("\r\n\r\n", $response, 2);
 
