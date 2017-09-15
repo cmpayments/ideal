@@ -22,6 +22,8 @@ class NoSuccessException extends IDealException
      */
     public function __construct(Response $response)
     {
+        parent::__construct('iDEAL payment was not successful');
+
         $this->response = $response;
     }
 
