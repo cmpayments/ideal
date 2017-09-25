@@ -22,6 +22,8 @@ class ResponseException extends IDealException
      */
     public function __construct(ErrorResponse $response)
     {
+        parent::__construct('Invalid response: ' . $response->getErrorCode() . ' - ' . $response->getErrorMessage());
+
         $this->response = $response;
     }
 
