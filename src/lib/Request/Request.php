@@ -111,11 +111,15 @@ class Request
      */
     protected function createElement($name, $value = null)
     {
-        if ($value === null) {
-            $element = $this->doc->createElementNS(self::XMLNS, $name);
-        } else {
-            $element = $this->doc->createElementNS(self::XMLNS, $name, $value);
+        // Always create the element without value, because createElementNS() does not apply encoding / escaping to the value
+        $element = $this->doc->createElementNS(self::XMLNS, $name);
+
+        //  If there is a value, use textContent to set the value;
+        //  textContent is some wierd pseudo-property that does encoding and escaping.
+        if ($value !== null) {
+            $element->textContent = $value;
         }
+
         return $element;
     }
 
