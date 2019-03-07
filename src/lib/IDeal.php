@@ -6,8 +6,8 @@ use CMPayments\IDeal\Exception;
 use CMPayments\IDeal\Request;
 use CMPayments\IDeal\Response;
 use DOMDocument;
-use XMLSecurityDSig;
-use XMLSecurityKey;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
 
 /**
  * Class IDeal

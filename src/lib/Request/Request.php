@@ -4,7 +4,7 @@ namespace CMPayments\IDeal\Request;
 
 use CMPayments\IDeal\IDeal;
 use DOMImplementation;
-use XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
 
 /**
  * Class Request
