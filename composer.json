@@ -22,7 +22,10 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "robrichards/xmlseclibs": "~1.4"
+        "robrichards/xmlseclibs": ">=3.0.2",
+        "ext-dom": "*",
+        "ext-curl": "*",
+        "ext-libxml": "*"
     },
     "suggest": {
         "roave/security-advisories": "Consider adding roave/security-advisories:dev-master as a firewall for vulnerable components."
