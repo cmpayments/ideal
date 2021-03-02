@@ -6,6 +6,7 @@ use CMPayments\IDeal\Exception;
 use CMPayments\IDeal\Request;
 use CMPayments\IDeal\Response;
 use DOMDocument;
+use Ramsey\Uuid\Uuid;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 
@@ -727,11 +728,6 @@ class IDeal
      */
     private function getRandom($length = 40)
     {
-        $keys = array_merge(range(0,9), range('a', 'z'), range('A', 'Z'));
-        $key = '';
-        for($i = 0; $i < $length; $i++) {
-            $key .= $keys[array_rand($keys)];
-        }
-        return $key;
+        return str_replace('-', '', Uuid::uuid4()->toString());
     }
 }
