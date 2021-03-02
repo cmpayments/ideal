@@ -25,7 +25,8 @@
         "robrichards/xmlseclibs": ">=3.0.2",
         "ext-dom": "*",
         "ext-curl": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ramsey/uuid": "^4.1"
     },
     "suggest": {
         "roave/security-advisories": "Consider adding roave/security-advisories:dev-master as a firewall for vulnerable components."
